@@ -13,8 +13,8 @@ In this project, we provide common ways to both deploy and benchmark these open 
 
 ### Project Organization
 
- - In the deploy-cluster folder, we provide, for each vendor, how to deploy a cluster fitted for benchmarking for each kubernetes vendor
- - In the deploy-framework folder, we provide, for each serverless framework, how to deploy it on each vendor.
+ - In the [deploy-cluster](https://github.com/docker/serverlessbenchmark/tree/master/deploy-cluster) folder, we provide, for each vendor, how to deploy a cluster fitted for benchmarking for each kubernetes vendor
+ - In the [deploy-framework folder](https://github.com/docker/serverlessbenchmark/tree/master/deploy-framework), we provide, for each serverless framework, how to deploy it on each vendor.
  - In the deploy-function folder*, we provide, for each serverless framework, how to deploy functions used for benchmarking.
 
 \*: currently missing.
