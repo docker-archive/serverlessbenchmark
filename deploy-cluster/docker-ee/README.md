@@ -2,6 +2,8 @@
 
 In this document, we detail how to deploy a Docker EE cluster for the purposes of the serverless benchmark on an AWS account. **NOTE**: the instructions below will deploy a cluster using a trial (1 month) license.
 
+**Note: following this guide will provision Ec2 machines on your AWS account, for which you will be charged for by AWS.**
+
 ### Requirements
 
  - [Terraform](https://www.terraform.io/downloads.html) (version 0.11.7)
@@ -24,7 +26,7 @@ Download the [Docker Certified Infrastructure for AWS](https://success.docker.co
 
 ```
 tar -zxvf aws-v1.0.0.tar.gz
-cp terrform.tfvars aws-v1.0.0/
+cp terraform.tfvars aws-v1.0.0/
 cd aws-v1.0.0
 ```
 
