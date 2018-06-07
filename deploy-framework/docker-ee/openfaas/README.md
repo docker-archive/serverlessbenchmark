@@ -21,7 +21,7 @@ kubectl create ns openfaas
 kubectl create ns openfaas-fn
 ```
 
-Grant the following permissions by using this [guide](https://docs.docker.com/ee/ucp/authorization/grant-permissions/):
+Grant the following Docker EE permissions by using this [guide](https://docs.docker.com/ee/ucp/authorization/grant-permissions/):
 
 | Namespace   	| Service Account 	| Role               	| Resource Set         	|
 |-------------	|-----------------	|--------------------	|----------------------	|

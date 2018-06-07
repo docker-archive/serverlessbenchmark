@@ -1,6 +1,6 @@
 # Fn Platform
 
-**In this file, we detail how to deploy Fn for the serverless benchmark on Docker EE.**
+**In this file, we detail how to deploy [Fn](https://github.com/fnproject/fn) for the serverless benchmark on Docker EE.**
 
 ## Requirements
 
@@ -15,12 +15,12 @@ git clone https://github.com/jtestard/fn-helm.git
 cd fn-helm
 ```
 
-## Deploy Gestalt
+## Deploy Fn
 
 See the README.md file of the fn-helm repo. Some notes:
 
- - Remember that gestalt is a Kubernetes-only product, therefore your Docker EE cluster requires worker nodes configured with Kubernetes as their orchestrator.
+ - Remember that fn is a Kubernetes-only product, therefore your Docker EE cluster requires worker nodes configured with Kubernetes as their orchestrator.
 
-## Removing Gestalt
+## Removing Fn
 
 See the README.md file of the fn-helm repo.
