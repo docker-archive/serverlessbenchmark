@@ -188,7 +188,7 @@ metadata:
   name: nuclio-dashboard
   namespace: nuclio
 spec:
-    type: NodePort
+  type: NodePort
   selector:
     nuclio.io/app: dashboard
   ports:
