@@ -17,7 +17,7 @@ In this project, we provide common ways to both **deploy** and **benchmark** the
 
 ### Deploying Kubernetes Clusters
 
-In order to make benchmarking reproduceable and verifiable, we provide instructions on deploying clusters on AWS in the [deploy-cluster](https://github.com/docker/serverlessbenchmark/tree/master/deploy-cluster) folder. Clusters are configured to have:
+In order to make benchmarking reproduceable and verifiable, we provide instructions on deploying clusters on AWS in the [deploy-cluster](https://github.com/docker/serverlessbenchmark/tree/master/deploy-cluster/docker-ee/README.md) folder. Clusters are configured to have:
 
  - 1 kubernetes manager using an M4.Xlarge instance
  - 2 kubernetes workers using a T2.large instance
@@ -27,7 +27,14 @@ The instructions may vary according to kubernetes distribution. The only instruc
 
 ### Deploying Serverless Frameworks
 
-In the [deploy-framework folder](https://github.com/docker/serverlessbenchmark/tree/master/deploy-framework), we provide instructions to deploy each framework for a specific kubernetes distribution. The only instructions available are for Docker EE.
+In the [deploy-framework folder](https://github.com/docker/serverlessbenchmark/tree/master/deploy-framework), we provide instructions to deploy each framework for a specific kubernetes distribution. The only instructions available are for Docker EE:
+
+ - [Deploy OpenFaaS on Docker EE](https://github.com/docker/serverlessbenchmark/tree/master/deploy-framework/docker-ee/openfaas)
+ - [Deploy Fn on Docker EE](https://github.com/docker/serverlessbenchmark/tree/master/deploy-framework/docker-ee/fn)
+ - [Deploy Riff on Docker EE](https://github.com/docker/serverlessbenchmark/tree/master/deploy-framework/docker-ee/riff)
+ - [Deploy Gestalt on Docker EE](https://github.com/docker/serverlessbenchmark/tree/master/deploy-framework/docker-ee/gestalt)
+ - [Deploy OpenWhisk on Docker EE](https://github.com/docker/serverlessbenchmark/tree/master/deploy-framework/docker-ee/openwhisk)
+ - [Deploy Nuclio on Docker EE](https://github.com/docker/serverlessbenchmark/tree/master/deploy-framework/docker-ee/nuclio)
 
 ### Deploying Functions
 

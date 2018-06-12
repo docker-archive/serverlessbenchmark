@@ -18,7 +18,7 @@ git checkout docker-ee-changes
 
 ## Deploy Gestalt
 
-See the README.md file of the installer repo. Some notes:
+See the `/docs/readme_docker_ee.md` file of the installer repo. Some notes:
 
  - Remember that gestalt is a Kubernetes-only product, therefore your Docker EE cluster requires worker nodes configured with Kubernetes as their orchestrator.
 
