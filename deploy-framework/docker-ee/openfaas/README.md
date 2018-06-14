@@ -22,9 +22,9 @@ Grant the following Docker EE permissions by using this [guide](https://docs.doc
 
 | Namespace   	| Service Account 	| Role               	| Resource Set         	|
 |-------------	|-----------------	|--------------------	|----------------------	|
-| openfaas    	| default         	| Restricted Control 	| kubernetesnamespaces 	|
-| openfaas-fn 	| default         	| Restricted Control 	| kubernetesnamespaces 	|
-| kube-system 	| default         	| Restricted Control 	| kubernetesnamespaces 	|
+| openfaas    	| default         	| Full Control 	| kubernetesnamespaces 	|
+| openfaas-fn 	| default         	| Full Control 	| kubernetesnamespaces 	|
+| kube-system 	| default         	| Full Control 	| kubernetesnamespaces 	|
 
 To select the `kubernetesnamespaces` resource set, on the Create Grant page under the Resource Sets tab, select the **namespaces** type and toggle
 "Apply Grant to all existing and new namespaces".
@@ -57,6 +57,13 @@ helm install . --name openfaas \
 ```
 
 With these instructions, NodePort services will be created for the API Gateway and Prometheus.
+
+Finally, an extra grant is required to actually deploy functions:
+
+| Namespace   	| Service Account 	| Role               	| Resource Set         	|
+|-------------	|-----------------	|--------------------	|----------------------	|
+| openfaas    	| faas-controller  	| Full Control 	      | openfaas-fn         	|
+
 
 ## Removing the OpenFaaS
 
