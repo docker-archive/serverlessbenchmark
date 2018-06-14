@@ -1,6 +1,6 @@
 # OpenFaaS - Serverless Functions Made Simple
 
-**In this file, we detail how to deploy OpenFaaS for the serverless benchmark on Docker EE.**
+**In this file, we detail how to deploy OpenFaaS on Docker EE. This guide only creates a development environment for OpenFaaS. Visit the OpenFaaS website for details on how to deploy for production environments.**
 
 ## Requirements
 
@@ -15,55 +15,44 @@
 You can create a separate namespace for OpenFaaS core services and functions:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+kubectl create namespace openfaas-fn
+kubectl create namespace openfaas
 ```
 
-Grant the following Docker EE permissions by using this [guide](https://docs.docker.com/ee/ucp/authorization/grant-permissions/):
-
-| Namespace   	| Service Account 	| Role               	| Resource Set         	|
-|-------------	|-----------------	|--------------------	|----------------------	|
-| openfaas    	| default         	| Full Control 	| kubernetesnamespaces 	|
-| openfaas-fn 	| default         	| Full Control 	| kubernetesnamespaces 	|
-| kube-system 	| default         	| Full Control 	| kubernetesnamespaces 	|
-
-To select the `kubernetesnamespaces` resource set, on the Create Grant page under the Resource Sets tab, select the **namespaces** type and toggle
-"Apply Grant to all existing and new namespaces".
+You can then do:
 
 ```
-helm init
+kubectl -n kube-system create sa tiller \
+ && kubectl create clusterrolebinding tiller \
+      --clusterrole cluster-admin \
+      --serviceaccount=kube-system:tiller
+
+helm init --skip-refresh --upgrade --service-account tiller
 ```
 
 This is will initialize the Tiller component. Before continuing, wait until the output of `helm version` includes a server version in addition to the client's.
 
-```
-git clone https://github.com/openfaas/faas-netes.git
-cd faas-netes/chart/openfaas
-```
-
-The default NodePorts used by OpenFaaS are in a range not valid for Docker EE. The commands below will change those port values.
+Next, setup a kube secret to enable OpenFaaS basic authentication.
 
 ```
-sed -i '' s/"nodePort: 31119"/"nodePort: 33001"/g ./templates/prometheus-external-svc.yaml
-sed -i '' s/"nodePort: 31112"/"nodePort: 33000"/g ./templates/gateway-external-svc.yaml
+PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
+kubectl -n openfaas create secret generic basic-auth \
+--from-literal=basic-auth-user=admin \
+--from-literal=basic-auth-password="$PASSWORD"
+echo "Credentials: username=admin, password=$PASSWORD"
 ```
 
-Finally this will install openfaas:
+Finally this will install openfaas. Note that the ports values are modified in order to comply with Docker EE port range restrictions:
 
 ```
-helm install . --name openfaas \
-   --namespace openfaas \
-   --set rbac=false \
-   --set functionNamespace=openfaas-fn
+helm repo update \
+ && helm upgrade openfaas --install openfaas/openfaas \
+    --namespace openfaas  \
+    --set basic_auth=true \
+    --set functionNamespace=openfaas-fn \
+    --set gateway.nodePort=33000 \
+    --set prometheus.nodePort=33001
 ```
-
-With these instructions, NodePort services will be created for the API Gateway and Prometheus.
-
-Finally, an extra grant is required to actually deploy functions:
-
-| Namespace   	| Service Account 	| Role               	| Resource Set         	|
-|-------------	|-----------------	|--------------------	|----------------------	|
-| openfaas    	| faas-controller  	| Full Control 	      | openfaas-fn         	|
-
 
 ## Removing the OpenFaaS
 
@@ -72,7 +61,3 @@ All control plane components can be cleaned up with helm:
 ```
 helm delete --purge openfaas
 ```
-
-## TODO
-
- - Once Docker Certified Infrastructure 2.0.0 becomes available, change these instructions to use an ingress load balancer instead.
