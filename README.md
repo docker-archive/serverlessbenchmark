@@ -9,9 +9,12 @@ These frameworks vary a lot in feature set, but all have the feature we come kno
  - The ability to create and modify language-specific scripts with a simple interface in either "inline" (within browser) or packaged form.
  - The ability to invoke functions through an HTTP API.
 
-Finally, all of these frameworks can easily be deploying using Kubernetes on Docker EE.
+Finally, all of these frameworks can easily be deploying using Kubernetes.
 
-In this project, we provide common ways to both **deploy** and **benchmark** these open source serverless frameworks. The scope of the benchmarking is still in progress.
+In this project, we provide so far guides on how to **deploy** these open source serverless frameworks on kubernetes distributions, starting with Docker EE.
+
+We wish to develop this repository into a benchmarking tool in collaboration with the various serverless frameworks maintainers and communities in the context of the [CNCF Serverless Working Group](https://github.com/cncf/wg-serverless).
+
 
 *: in addition to the six frameworks above, we have also identified funktion, kubeless, fission.io
 

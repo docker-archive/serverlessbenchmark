@@ -2,8 +2,6 @@
 
 **In this file, we detail how to deploy OpenFaaS for the serverless benchmark on Docker EE.**
 
-These instructions are heavily influenced by those used in the [faas-netes](https://github.com/openfaas/faas-netes/tree/master/chart/openfaas) project.
-
 ## Requirements
 
  - [Docker CLI](https://www.docker.com/get-docker)
@@ -17,8 +15,7 @@ These instructions are heavily influenced by those used in the [faas-netes](http
 You can create a separate namespace for OpenFaaS core services and functions:
 
 ```
-kubectl create ns openfaas
-kubectl create ns openfaas-fn
+kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
 ```
 
 Grant the following Docker EE permissions by using this [guide](https://docs.docker.com/ee/ucp/authorization/grant-permissions/):
@@ -32,18 +29,30 @@ Grant the following Docker EE permissions by using this [guide](https://docs.doc
 To select the `kubernetesnamespaces` resource set, on the Create Grant page under the Resource Sets tab, select the **namespaces** type and toggle
 "Apply Grant to all existing and new namespaces".
 
-This is will initialize the Tiller component. Before continuing, wait until the output of `helm version` includes a server version in addition to the client's.
-
 ```
 helm init
 ```
 
-This command should be run from within the `frameworks/openfaas/deploy_framework` folder or equivalent:
+This is will initialize the Tiller component. Before continuing, wait until the output of `helm version` includes a server version in addition to the client's.
 
 ```
-helm upgrade --install openfaas . \
+git clone https://github.com/openfaas/faas-netes.git
+cd faas-netes/chart/openfaas
+```
+
+The default NodePorts used by OpenFaaS are in a range not valid for Docker EE. The commands below will change those port values.
+
+```
+sed -i '' s/"nodePort: 31119"/"nodePort: 33001"/g ./templates/prometheus-external-svc.yaml
+sed -i '' s/"nodePort: 31112"/"nodePort: 33000"/g ./templates/gateway-external-svc.yaml
+```
+
+Finally this will install openfaas:
+
+```
+helm install . --name openfaas \
    --namespace openfaas \
-   --set rbac.create=false \
+   --set rbac=false \
    --set functionNamespace=openfaas-fn
 ```
 
@@ -54,7 +63,7 @@ With these instructions, NodePort services will be created for the API Gateway a
 All control plane components can be cleaned up with helm:
 
 ```
-$ helm delete --purge openfaas
+helm delete --purge openfaas
 ```
 
 ## TODO
