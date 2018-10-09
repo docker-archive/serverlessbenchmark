@@ -43,8 +43,7 @@ cd faas-netes/chart/openfaas
 The default NodePorts used by OpenFaaS are in a range not valid for Docker EE. The commands below will change those port values.
 
 ```
-sed -i '' s/"nodePort: 31119"/"nodePort: 33001"/g ./templates/prometheus-external-svc.yaml
-sed -i '' s/"nodePort: 31112"/"nodePort: 33000"/g ./templates/gateway-external-svc.yaml
+sed -i '' s/"nodePort: 31112"/"nodePort: 33000"/g ./values.yaml
 ```
 
 Finally this will install openfaas:
@@ -56,7 +55,7 @@ helm install . --name openfaas \
    --set functionNamespace=openfaas-fn
 ```
 
-With these instructions, NodePort services will be created for the API Gateway and Prometheus.
+With these instructions, NodePort services will be created for the API Gateway.
 
 Finally, an extra grant is required to actually deploy functions:
 
